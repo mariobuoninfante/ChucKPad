@@ -1,3 +1,6 @@
 2019-11-01
 ---
-  - implemented midiout, msgout and basic LPX classes
+  - LPX - added set_led, set_leds, set_all, clear methods. added flash and pulse (not for list of pads/buttons)
+  - ported M_MsgIn and M_MidiIn
+  - LPX - fixed issue with 'set_pad' and 'set_button'
+  - implemented M_NidiIn, M_MsgOut and basic LPX classes

@@ -4,8 +4,8 @@ public class LPX extends MidiLib
         Novation LP X
     */
 
-    MidiIn      from_LP;
-    MidiMsg     msg_in;
+    M_MidiIn    from_LP;
+    M_MsgIn     msg_in;
     M_MidiOut   to_LP;
     M_MsgOut    msg_out;
 
@@ -19,10 +19,26 @@ public class LPX extends MidiLib
     51,52,53,54,55,56,57,58,
     61,62,63,64,65,66,67,68,
     71,72,73,74,75,76,77,78,
-    81,82,83,84,85,86,87,88,
-    91,92,93,94,95,96,97,98] @=> int pads[];
+    81,82,83,84,85,86,87,88] @=> int pads[];
 
-    [19,29,39,49,59,69,79,89] @=> int buttons[];
+    [19,29,39,49,59,69,79,89,91,92,93,94,95,96,97,98] @=> int buttons[];
+    int button_names[0];
+    19 => this.button_names["record_arm"];
+    29 => this.button_names["solo"];
+    39 => this.button_names["mute"];
+    49 => this.button_names["stop_clip"];
+    59 => this.button_names["send_b"];
+    69 => this.button_names["send_a"];
+    79 => this.button_names["pan"];
+    89 => this.button_names["volume"];
+    91 => this.button_names["arrow_up"];
+    92 => this.button_names["arrow_down"];
+    93 => this.button_names["arrow_left"];
+    94 => this.button_names["arrow_right"];
+    95 => this.button_names["session"];
+    96 => this.button_names["note"];
+    97 => this.button_names["custom"];
+    98 => this.button_names["capture"];
 
     99 => int logo;
 
@@ -42,16 +58,51 @@ public class LPX extends MidiLib
         this.msg_out.connect_to_midi_out(this.to_LP);
     }
 
-    function void set_pad(int id, int color)
+    function void set_led(int id, int color, int mode)
     {
-        this.msg_out.note_on(id, color, 1);
-        this.msg_out.send(this.msg_out);
+        // mode: 0.static, 1.flash, 2.pulse
+        if(id % 10 != 9)
+            this.msg_out.note_on(id, color, mode+1);
+        else
+            this.msg_out.cc(color, id, mode+1);
+        this.msg_out.send();
     }
 
-    function void set_button(int id, int color)
+    function void set_led(string name, int color, int mode)
     {
-        this.msg_out.cc(color, id, 1);
-        this.msg_out.send(this.msg_out);
+        this.msg_out.cc(color, this.button_names[name], mode+1);
+        this.msg_out.send();
+    }
+
+    function void set_leds(int list[])
+    {
+        // pairs of id, color
+        for(0 => int c; c < list.size()/2; c++)
+        {
+            list[c*2]       => int id;
+            list[(c*2) + 1] => int color;
+            if(id % 10 != 9)
+            this.msg_out.note_on(id, color, 1);
+            else
+                this.msg_out.cc(color, id, 1);
+            this.msg_out.send();
+        }
+    }
+
+    function void set_all(int color, int mode)
+    {
+        for(0 => int c; c < 100; c++)
+        {
+            this.set_led(c, color, mode);
+        }
+    }
+
+    function void clear()
+    {
+        for(0 => int c; c < 100; c++)
+        {
+            this.set_led(c, 0, 0);
+        }
     }
 
     function void programmer_mode(int status)

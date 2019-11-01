@@ -132,6 +132,7 @@ public class M_MsgOut extends MidiMsg
                 if(c == sys_msg.size() - 1)
                 {
                     this.send();
+                    // <<< this.data1, this.data2, this.data3 >>>;
                 }
             }
             else if(c % 3 == 1)
@@ -140,12 +141,14 @@ public class M_MsgOut extends MidiMsg
                 if(c == sys_msg.size() - 1)
                 {
                     this.send();
+                    // <<< this.data1, this.data2, this.data3 >>>;
                 }
             }
             else if(c % 3 == 2)
             {
                 sys_msg[c] => this.data3;
                 this.send();
+                // <<< this.data1, this.data2, this.data3 >>>;
             }
         }
     }
