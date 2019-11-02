@@ -89,6 +89,26 @@ public class LPX extends MidiLib
         }
     }
 
+    function void set_row(int row, int color, int mode)
+    {
+        row % 9 => row;
+        (row*10) + 11 => int offset;
+        for(0 => int c; c < 9; c++)
+        {
+            this.set_led(c+offset, color, mode);
+        }
+    }
+
+    function void set_column(int column, int color, int mode)
+    {
+        column%9 => column;
+        11+column => int offset;
+        for(0 => int c; c < 9; c++)
+        {
+            this.set_led((c*10)+offset, color, mode);
+        }
+    }
+
     function void set_all(int color, int mode)
     {
         for(0 => int c; c < 100; c++)
