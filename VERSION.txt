@@ -1,3 +1,8 @@
+2019-11-04
+---
+  - M_MidiIn and M_MidiOut connect methods now return 0 or 1
+  - added mac MIDI port names
+
 2019-11-01
 ---
   - LPX - added set_column and set_row methods

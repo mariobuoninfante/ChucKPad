@@ -16,26 +16,30 @@ public class M_MidiOut
         m_out.send(msg);
     }
 
-    function void connect(string s)
+    function int connect(string s)
     {
         s => this.device_name;
 
         if(!this.m_out.open(this.device_name))
         {
             <<< "ISSUE WITH MIDI DEVICE!!!!!" >>>;
-            me.exit();
+            // me.exit();
+            return 0;
         }
+        return 1;
     }
 
-    function void connect(int p)
+    function int connect(int p)
     {
         p => this.device_id;
 
         if(!this.m_out.open(this.device_id))
         {
             <<< "ISSUE WITH MIDI DEVICE!!!!!" >>>;
-            me.exit();
+            // me.exit();
+            return 0;
         }
+        return 1;
     }
 
 }

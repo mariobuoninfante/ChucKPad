@@ -9,7 +9,9 @@ public class LPX extends MidiLib
     M_MidiOut   to_LP;
     M_MsgOut    msg_out;
 
-    "Launchpad X MIDI 2" => string device_name;
+    "Launchpad X MIDI 2" => string device_name_linux;
+    "Launchpad X LPX MIDI Out" => string device_name_mac_out;
+    "Launchpad X LPX MIDI In" => string device_name_mac_in;
 
     // HW layout - pads/buttons/logo mapping
     [11,12,13,14,15,16,17,18,
@@ -47,13 +49,23 @@ public class LPX extends MidiLib
         /*
             connect MIDI in/out
         */
-        if(!this.from_LP.open(this.device_name))
+        if(!this.from_LP.connect(this.device_name_mac_out))
         {
-            chout <= "issue connecting LP X - INPUT";
-            me.exit();
+            if(!this.from_LP.connect(this.device_name_linux))
+            {
+                chout <= "issue connecting LP X - INPUT";
+                me.exit();
+            }
         }
 
-        this.to_LP.connect(this.device_name);
+        if(!this.to_LP.connect(this.device_name_mac_in))
+        {
+            if(!this.to_LP.connect(this.device_name_linux))
+            {
+                chout <= "issue connecting LP X - INPUT";
+                me.exit();
+            }
+        }
 
         this.msg_out.connect_to_midi_out(this.to_LP);
     }
