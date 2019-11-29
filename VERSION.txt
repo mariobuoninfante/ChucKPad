@@ -1,5 +1,6 @@
 2019-11-29
 ---
+  - added Sequencer class
   - added Eculidean rhythm generator class
   - added Square class
   - LPX/M_MidiIn/M_MidiOut - code refactoring

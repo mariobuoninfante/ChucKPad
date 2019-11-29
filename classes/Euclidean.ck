@@ -1,9 +1,9 @@
-//  *  Euclidean.ck  
-//  *
-//  *  Ecuclidean Rhythm Generator
-//  *
-//  *  @author         Mario Buoninfante
-//  *  @copyright      2019 
+// Euclidean.ck  
+//
+// Ecuclidean Rhythm Generator
+//
+// @author         Mario Buoninfante
+// @copyright      2019 
 
 
 public class Euclidean

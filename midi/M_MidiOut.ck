@@ -30,7 +30,7 @@ public class M_MidiOut extends MidiOut
             }
             else if(c % 3 == 1)
             {
-                msg[c] => this._msg.data1;
+                msg[c] => this._msg.data2;
                 if(c == msg.size() - 1)
                 {
                     this.send(this._msg);
@@ -38,7 +38,7 @@ public class M_MidiOut extends MidiOut
             }
             else if(c % 3 == 2)
             {
-                msg[c] => this._msg.data1;
+                msg[c] => this._msg.data3;
                 this.send(this._msg);
             }
         }

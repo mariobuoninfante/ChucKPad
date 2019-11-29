@@ -11,10 +11,12 @@
 
 chout <= "\nChucKPad\n--------\nChucK Programming Language + Novation Launchpad\n" <= IO.nl();
 
+4           => int nr_of_tracks;
+
 MidiLib     MidiLib;
 LPX         LPX;
-Square      S[4];
-Euclidean   E;
+Square      S[nr_of_tracks];
+Sequencer   Seq;
 
 LPX.connect();
 LPX.programmer_mode(1);
@@ -30,9 +32,19 @@ S[1].create(4, 0, 4, 24);
 S[2].create(0, 4, 4, 78);
 S[3].create(4, 4, 4, 126);
 
-// Euclidean rhythm
-E.set(11, 3);
-E.print();
+
+// set tracks
+Seq.track_nr(nr_of_tracks);
+Seq.loadsample(0, me.dir() + "/audio/kick.wav");
+Seq.loadsample(1, me.dir() + "/audio/snare.wav");
+Seq.loadsample(2, me.dir() + "/audio/hh.wav");
+Seq.loadsample(3, me.dir() + "/audio/tom.wav");
+Seq.set_track(0, 16, 0);
+Seq.set_track(1, 16, 0);
+Seq.set_track(2, 16, 0);
+Seq.set_track(3, 16, 0);
+
+Seq.play(1);
 
 
 
@@ -56,6 +68,7 @@ while(true)
             // LPX.set_column(3, 119, 2);
             // LPX.set_row(4, 120, 0);
             pad_press();
+            seq_update();
             print_status();
         }
         // LPX.msg_in.print();
@@ -63,9 +76,11 @@ while(true)
 }
 
 
+
 //------------------------
 //-------FUNCTIONS--------
 //------------------------
+
 function void pad_press()
 {
     /*
@@ -90,6 +105,19 @@ function void print_status()
         chout <= S[c].get() <= " ";
     
     chout <= IO.nl();
+}
+
+function void seq_update()
+{
+    /*
+        update euclidean sequencer in accord with Square value
+    */
+
+    for(0 => int c; c < S.size(); c++)
+    {
+        S[c].get() => int ones; 
+        Seq.set_track(c, 16, ones);
+    }
 }
 
 function void get(int nr)
