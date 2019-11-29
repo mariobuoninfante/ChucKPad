@@ -39,10 +39,11 @@ Seq.loadsample(0, me.dir() + "/audio/kick.wav");
 Seq.loadsample(1, me.dir() + "/audio/snare.wav");
 Seq.loadsample(2, me.dir() + "/audio/hh.wav");
 Seq.loadsample(3, me.dir() + "/audio/tom.wav");
-Seq.set_track(0, 16, 0);
-Seq.set_track(1, 16, 0);
-Seq.set_track(2, 16, 0);
-Seq.set_track(3, 16, 0);
+Seq.set_track(0, 16, 0, 0);     // track nr, length, ones, offset
+Seq.smart_offset(1,1);
+Seq.set_track(1, 16, 0, 2);
+Seq.set_track(2, 16, 0, 0);
+Seq.set_track(3, 16, 0, 0);
 
 Seq.play(1);
 
@@ -68,8 +69,10 @@ while(true)
             // LPX.set_column(3, 119, 2);
             // LPX.set_row(4, 120, 0);
             pad_press();
+            chout <= "------------------------------------------------" <= IO.nl();
+            chout <= "------------------------------------------------" <= IO.nl();
             seq_update();
-            print_status();
+            // print_status();
         }
         // LPX.msg_in.print();
     }
@@ -115,8 +118,8 @@ function void seq_update()
 
     for(0 => int c; c < S.size(); c++)
     {
-        S[c].get() => int ones; 
-        Seq.set_track(c, 16, ones);
+        S[c].get() => int ones;
+        Seq.set_track(c, 16, ones, -1);     // -1 to use the current offset - ie no changes
     }
 }
 

@@ -51,9 +51,9 @@ public class Sequencer
         }
     }
 
-    function void set_track(int t_nr, int steps, int ones)
+    function void set_track(int t_nr, int steps, int ones, int offset)
     {
-        this.Track[t_nr].set_sequence(steps, ones);
+        this.Track[t_nr].set_sequence(steps, ones, offset);
     }
 
     function float set_bpm(float x)
@@ -72,6 +72,11 @@ public class Sequencer
     function void loadsample(int t_nr, string sample_name)
     {
         this.Track[t_nr].loadsample(sample_name);
+    }
+
+    function void smart_offset(int t_nr, int x)
+    {
+        this.Track[t_nr].set_smart_offset(x);
     }
 
     function void track_nr(int nr)
@@ -120,11 +125,16 @@ private class Pattern
         }
     }
 
-    function void set_sequence(int steps, int ones)
+    function void set_sequence(int steps, int ones, int offset)
     {
         // set sequence
 
-        this.Euclidean.set(steps, ones) @=> this.sequence;
+        this.Euclidean.set(steps, ones, offset) @=> this.sequence;
+    }
+
+    function void set_smart_offset(int x)
+    {
+        this.Euclidean.set_smart_offset(x);
     }
 
     function void trigger()
@@ -139,19 +149,34 @@ private class Pattern
 
 private class Euclidean
 {
-    0       => int offset;
+    0 => int offset;
     int steps;
     int ones;
+    0 => int smart_offset;
     int pattern[0];
 
-    fun int[] set(int steps, int ones)
+    fun int[] set(int st, int on, int off)
     {        
         /*
             euclidean rhythm generator
         */
 
-        steps   => this.steps;
-        ones    => this.ones;
+        st   => this.steps;
+        on    => this.ones;
+
+        if(!this.smart_offset)
+        {
+            // if offset argument is -1 don't change this.offset 
+            if(off >= 0)
+                off => this.offset;
+        }
+        else
+        {
+            if(this.ones < 4)
+                4 => this.offset;
+            else if(this.steps >= 4)
+                2 => this.offset;
+        }
 
         this.pattern.clear();
         this.pattern.size(this.steps);
@@ -165,16 +190,21 @@ private class Euclidean
 
         if(ones != 0)
         {
-            for(0 => int c; c <= this.ones; c++)
+            this.steps/(this.ones $ float) => float increment;
+            for(0 => int c; c < this.ones; c++)
             {
-                Math.round(c*(this.steps/this.ones $ float)) $ int => int ones_index;
-                1 => this.pattern[((ones_index) % this.steps)];
+                1 => this.pattern[((Math.round(c*increment) $ int) + offset) % this.steps];
             }
         }
         
         this.print();
         
         return pattern;
+    }
+
+    function void set_smart_offset(int x)
+    {
+        x => this.smart_offset;
     }
 
 
@@ -194,9 +224,16 @@ private class Euclidean
             print rhythm / array
         */
 
-        for( 0 => int c; c < this.steps; c++ )
+        for(0 => int c; c < this.pattern.size(); c++)
         {
-            chout <= this.pattern[c] <= " ";
+            if(this.pattern[c])
+            {
+                chout <= " X ";
+            }
+            else
+            {
+                chout <= " - ";
+            }
         }
         chout <= IO.nl();
     }

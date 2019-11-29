@@ -1,5 +1,6 @@
 2019-11-29
 ---
+  - Euclidean - code refactoring, added offset
   - added Sequencer class
   - added Eculidean rhythm generator class
   - added Square class
