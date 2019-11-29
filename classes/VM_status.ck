@@ -1,6 +1,12 @@
 /*
-    constantly print Machine status to the console
+     *  VM_Status.ck
+     *  ---
+     *  constantly print virtual machine status to the console
+     *
+     *  @author         Mario Buoninfante
+     *  @copyright      2019 
 */
+
 
 while(true)
 {

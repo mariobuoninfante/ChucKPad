@@ -112,11 +112,6 @@ public class M_MsgOut extends MidiMsg
         msg.data3 => this.data3;
     }
 
-    function void send()
-    {
-        this.m_out.send(this);
-    }
-
     function void connect_to_midi_out(M_MidiOut out)
     {
         out @=> this.m_out;

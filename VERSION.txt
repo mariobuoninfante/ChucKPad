@@ -1,3 +1,8 @@
+2019-11-29
+---
+  - LPX/M_MidiIn/M_MidiOut - code refactoring
+  - M_Msg - replaced both M_MsgIn and M_MsgOut
+
 2019-11-04
 ---
   - M_MidiIn and M_MidiOut connect methods now return 0 or 1

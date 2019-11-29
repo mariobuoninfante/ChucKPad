@@ -1,7 +1,12 @@
 public class M_MidiIn extends MidiIn
 {
     /*
-        MIDI INPUT
+     *  M_MidiIn.ck
+     *  ---
+     *  MIDI In class
+     *
+     *  @author         Mario Buoninfante
+     *  @copyright      2019 
     */
 
     "" => string device_name;
@@ -17,13 +22,13 @@ public class M_MidiIn extends MidiIn
             // me.exit();
             return 0;
         }
+
         return 1;
     }
 
     function int connect(int p)
     {
         p => this.device_id;
-
         if( !this.open(this.device_id) )
         {
             <<< "ISSUE WITH MIDI DEVICE!!!!!" >>>;
@@ -37,5 +42,4 @@ public class M_MidiIn extends MidiIn
     {
         return this;
     }
-
 }

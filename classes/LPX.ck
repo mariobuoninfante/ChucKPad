@@ -1,13 +1,19 @@
 public class LPX extends MidiLib
 {
     /*
-        Novation LP X
+     *  LPX.ck
+     *  ---
+     *  Novation LP X Class
+     *
+     *  @author         Mario Buoninfante
+     *  @copyright      2019 
     */
 
+
     M_MidiIn    from_LP;
-    M_MsgIn     msg_in;
+    M_Msg       msg_in;
     M_MidiOut   to_LP;
-    M_MsgOut    msg_out;
+    M_Msg       msg_out;
 
     "Launchpad X MIDI 2" => string device_name_linux;
     "Launchpad X LPX MIDI Out" => string device_name_mac_out;
@@ -24,23 +30,22 @@ public class LPX extends MidiLib
     81,82,83,84,85,86,87,88] @=> int pads[];
 
     [19,29,39,49,59,69,79,89,91,92,93,94,95,96,97,98] @=> int buttons[];
-    int button_names[0];
-    19 => this.button_names["record_arm"];
-    29 => this.button_names["solo"];
-    39 => this.button_names["mute"];
-    49 => this.button_names["stop_clip"];
-    59 => this.button_names["send_b"];
-    69 => this.button_names["send_a"];
-    79 => this.button_names["pan"];
-    89 => this.button_names["volume"];
-    91 => this.button_names["arrow_up"];
-    92 => this.button_names["arrow_down"];
-    93 => this.button_names["arrow_left"];
-    94 => this.button_names["arrow_right"];
-    95 => this.button_names["session"];
-    96 => this.button_names["note"];
-    97 => this.button_names["custom"];
-    98 => this.button_names["capture"];
+    19 => this.buttons["record_arm"];
+    29 => this.buttons["solo"];
+    39 => this.buttons["mute"];
+    49 => this.buttons["stop_clip"];
+    59 => this.buttons["send_b"];
+    69 => this.buttons["send_a"];
+    79 => this.buttons["pan"];
+    89 => this.buttons["volume"];
+    91 => this.buttons["arrow_up"];
+    92 => this.buttons["arrow_down"];
+    93 => this.buttons["arrow_left"];
+    94 => this.buttons["arrow_right"];
+    95 => this.buttons["session"];
+    96 => this.buttons["note"];
+    97 => this.buttons["custom"];
+    98 => this.buttons["capture"];
 
     99 => int logo;
 
@@ -49,6 +54,7 @@ public class LPX extends MidiLib
         /*
             connect MIDI in/out
         */
+
         if(!this.from_LP.connect(this.device_name_mac_out))
         {
             if(!this.from_LP.connect(this.device_name_linux))
@@ -66,29 +72,40 @@ public class LPX extends MidiLib
                 me.exit();
             }
         }
-
-        this.msg_out.connect_to_midi_out(this.to_LP);
     }
 
     function void set_led(int id, int color, int mode)
     {
-        // mode: 0.static, 1.flash, 2.pulse
+        /*
+            set specific LED
+            mode: 0.static, 1.flash, 2.pulse
+        */
+
         if(id % 10 != 9)
             this.msg_out.note_on(id, color, mode+1);
         else
             this.msg_out.cc(color, id, mode+1);
-        this.msg_out.send();
+        this.to_LP.send(this.msg_out);
     }
 
     function void set_led(string name, int color, int mode)
     {
-        this.msg_out.cc(color, this.button_names[name], mode+1);
-        this.msg_out.send();
+        /*
+            set specific LED
+            mode: 0.static, 1.flash, 2.pulse
+        */
+
+        this.msg_out.cc(color, this.buttons[name], mode+1);
+        this.to_LP.send(this.msg_out);
     }
 
     function void set_leds(int list[])
     {
-        // pairs of id, color
+        /*
+            set specific LED
+            pairs of id, color - ie [11, 120, 35, 100] where index 0 and 3 are IDs and index 1 and 3 are colors
+        */
+
         for(0 => int c; c < list.size()/2; c++)
         {
             list[c*2]       => int id;
@@ -97,12 +114,16 @@ public class LPX extends MidiLib
             this.msg_out.note_on(id, color, 1);
             else
                 this.msg_out.cc(color, id, 1);
-            this.msg_out.send();
+            this.to_LP.send(this.msg_out);
         }
     }
 
     function void set_row(int row, int color, int mode)
     {
+        /*
+            set entire row
+        */
+
         row % 9 => row;
         (row*10) + 11 => int offset;
         for(0 => int c; c < 9; c++)
@@ -113,6 +134,10 @@ public class LPX extends MidiLib
 
     function void set_column(int column, int color, int mode)
     {
+        /*
+            set entire column
+        */
+
         column%9 => column;
         11+column => int offset;
         for(0 => int c; c < 9; c++)
@@ -123,6 +148,10 @@ public class LPX extends MidiLib
 
     function void set_all(int color, int mode)
     {
+        /*
+            set all pads
+        */
+
         for(0 => int c; c < 100; c++)
         {
             this.set_led(c, color, mode);
@@ -131,6 +160,10 @@ public class LPX extends MidiLib
 
     function void clear()
     {
+        /*
+            clear whole surface
+        */
+
         for(0 => int c; c < 100; c++)
         {
             this.set_led(c, 0, 0);
@@ -142,7 +175,8 @@ public class LPX extends MidiLib
         /*
             turn OFF/ON "programmer mode"
         */
+
         status & 127 => status;
-        this.msg_out.sysex([240, 0, 32, 41, 2, 12, 14, status, 247]);
+        this.to_LP.send([240, 0, 32, 41, 2, 12, 14, status, 247]);
     }
 }
