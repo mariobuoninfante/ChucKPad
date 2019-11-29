@@ -1,22 +1,18 @@
+// M_Msg.ck
+// ---
+// MIDI msg class
+// 
+// @author         Mario Buoninfante
+// @copyright      2019 
+
 public class M_Msg extends MidiMsg
 {
-    /*
-     *  M_Msg.ck
-     *  ---
-     *  MIDI msg class
-     *
-     *  @author         Mario Buoninfante
-     *  @copyright      2019 
-    */
+    // In ChucK MIDI msg have 3 bytes only - a workaround is implemented in M_MidiOut.ck to send sysex msg
 
+    // The various 'send msg' functions have arguments in a 'Pure Data' style
+    // ie cc() would be the same that [ctlout] in Pd
+    // where the args are: 1. value, 2. CC nr, 3. MIDI Channel (1-16)
 
-    /*
-        In ChucK MIDI msg have 3 bytes only - a workaround is implemented in M_MidiOut.ck to send sysex msg
-
-        The various 'send msg' functions have arguments in a 'Pure Data' style
-        ie cc() would be the same that [ctlout] in Pd
-        where the args are: 1. value, 2. CC nr, 3. MIDI Channel (1-16)
-    */
     
     //-------------GLOBAL-VARIABLES-------------
 

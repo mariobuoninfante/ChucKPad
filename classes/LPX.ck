@@ -1,11 +1,10 @@
-/*
-     *  LPX.ck
-     *  ---
-     *  Novation LP X Class
-     *
-     *  @author         Mario Buoninfante
-     *  @copyright      2019 
-*/
+// LPX.ck
+// ---
+// Novation LP X Class
+// 
+// @author         Mario Buoninfante
+// @copyright      2019 
+
 
 public class LPX extends MidiLib
 {

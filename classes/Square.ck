@@ -1,11 +1,10 @@
-/*
-     *  Square.ck  
-     *  ---
-     *  Draw square on LP X 
-     *
-     *  @author         Mario Buoninfante
-     *  @copyright      2019 
-*/
+// Square.ck  
+// ---
+// Draw square on LP X 
+// 
+// @author         Mario Buoninfante
+// @copyright      2019 
+
 
 
 public class Square
@@ -89,5 +88,17 @@ public class Square
                 }
             }
         }
+    }
+
+    function int get()
+    {
+        /*
+            return select pad id - return 0 if none is selected
+        */
+
+        if(this.pad_ids[this.current_pad_id + 1])
+            return (this.current_pad_id / 2) + 1;
+        else
+            return 0;
     }
 }

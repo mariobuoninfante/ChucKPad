@@ -1,25 +1,16 @@
+// M_MidiOut.ck
+// ---
+// MIDI Out class
+// 
+// @author         Mario Buoninfante
+// @copyright      2019 
+
 public class M_MidiOut extends MidiOut
 {
-    /*
-     *  M_MidiOut.ck
-     *  ---
-     *  MIDI Out class
-     *
-     *  @author         Mario Buoninfante
-     *  @copyright      2019 
-    */
-
-    // MidiOut m_out;
     MidiMsg _msg;
 
     "" => string device_name;
     -1 => int device_id;
-
-
-    // function void send(MidiMsg msg)
-    // {
-    //     this.m_out.send(msg);
-    // }
 
     function void send(int msg[])
     {
@@ -61,7 +52,6 @@ public class M_MidiOut extends MidiOut
         if(!this.open(this.device_name))
         {
             <<< "ISSUE WITH MIDI DEVICE!!!!!" >>>;
-            // me.exit();
             return 0;
         }
 
