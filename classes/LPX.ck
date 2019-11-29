@@ -1,15 +1,14 @@
-public class LPX extends MidiLib
-{
-    /*
+/*
      *  LPX.ck
      *  ---
      *  Novation LP X Class
      *
      *  @author         Mario Buoninfante
      *  @copyright      2019 
-    */
+*/
 
-
+public class LPX extends MidiLib
+{
     M_MidiIn    from_LP;
     M_Msg       msg_in;
     M_MidiOut   to_LP;
@@ -111,7 +110,7 @@ public class LPX extends MidiLib
             list[c*2]       => int id;
             list[(c*2) + 1] => int color;
             if(id % 10 != 9)
-            this.msg_out.note_on(id, color, 1);
+                this.msg_out.note_on(id, color, 1);
             else
                 this.msg_out.cc(color, id, 1);
             this.to_LP.send(this.msg_out);
