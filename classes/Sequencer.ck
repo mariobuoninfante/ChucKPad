@@ -25,7 +25,10 @@ public class Sequencer
         if(x)
             spork ~ _run(x) @=> SHRED;
         else
-            Machine.remove(SHRED.id());
+        {
+            if(SHRED.id() != 0)
+                Machine.remove(SHRED.id());
+        }
     }
 
     function void _run(int x)
@@ -172,9 +175,11 @@ private class Euclidean
         }
         else
         {
-            if(this.ones < 4)
+            if(this.ones < 2)
+                8 => this.offset;
+            else if(this.ones < 4)
                 4 => this.offset;
-            else if(this.steps >= 4)
+            else
                 2 => this.offset;
         }
 

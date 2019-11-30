@@ -1,3 +1,7 @@
+2019-11-30
+---
+  - added Button class and refactored press() method in Square
+
 2019-11-29
 ---
   - Euclidean - code refactoring, added offset

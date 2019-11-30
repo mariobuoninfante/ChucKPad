@@ -16,6 +16,7 @@ chout <= "\nChucKPad\n--------\nChucK Programming Language + Novation Launchpad\
 MidiLib     MidiLib;
 LPX         LPX;
 Square      S[nr_of_tracks];
+Button      Play;
 Sequencer   Seq;
 
 LPX.connect();
@@ -27,11 +28,14 @@ for(0 => int c; c < S.size(); c++)
     S[c].link(LPX);
 }
 // draw the squares
-S[0].create(0, 0, 4, 97);
-S[1].create(4, 0, 4, 24);
-S[2].create(0, 4, 4, 78);
-S[3].create(4, 4, 4, 126);
+S[0].create(0, 0, 4, 97);   // yellow square 
+S[1].create(4, 0, 4, 29);   // green square
+S[2].create(0, 4, 4, 78);   // azure square
+S[3].create(4, 4, 4, 126);  // orange square
 
+// initialize the PLAY button
+Play.link(LPX);
+Play.create(19, 21, 1);     // pad_id: 19, ON_color: 21, button_type: 1 (toggle)
 
 // set tracks
 Seq.track_nr(nr_of_tracks);
@@ -45,7 +49,6 @@ Seq.set_track(1, 16, 0, 2);
 Seq.set_track(2, 16, 0, 0);
 Seq.set_track(3, 16, 0, 0);
 
-Seq.play(1);
 
 
 
@@ -69,10 +72,17 @@ while(true)
             // LPX.set_column(3, 119, 2);
             // LPX.set_row(4, 120, 0);
             pad_press();
+            if(Play.press())
+                Play.get() => Seq.play;
             chout <= "------------------------------------------------" <= IO.nl();
             chout <= "------------------------------------------------" <= IO.nl();
             seq_update();
             // print_status();
+        }
+        else if((LPX.msg_in.type() == "NOTE_ON" && LPX.msg_in.data3 == 0) || LPX.msg_in.type() == "CC")
+        {
+            if(Play.press())
+                Play.get() => Seq.play;
         }
         // LPX.msg_in.print();
     }
@@ -87,12 +97,12 @@ while(true)
 function void pad_press()
 {
     /*
-        call pad_press for all the Squares
+        call press for all the Squares
     */
 
     for(0 => int c; c < S.size(); c++)
     {
-        S[c].pad_press();
+        S[c].press();
     }
 }
 

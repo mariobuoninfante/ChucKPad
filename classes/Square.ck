@@ -23,7 +23,7 @@ public class Square
         /*
             link to external LPX
         */
-        ExtLPX @=> LPX;
+        ExtLPX @=> this.LPX;
     }
 
     function void create(int xpos, int ypos, int size, int color)
@@ -50,11 +50,10 @@ public class Square
         }
     }
 
-    function void pad_press()
+    function int press()
     {
-        /*
-            highlight pressed pad if part of the square
-        */
+        // highlight pressed pad if part of the square - return 1 when press occurs, otherwise return 0
+
 
         // if NOTE ON
         if(this.LPX.msg_in.data1 >> 4 == 9)
@@ -85,9 +84,12 @@ public class Square
                     }
                     
                     this.current_pad_id => this.prev_pad_id;
+                    return 1;
                 }
             }
         }
+
+        return 0;
     }
 
     function int get()
