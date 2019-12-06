@@ -1,5 +1,5 @@
 //--------------------------------------
-// sine oscillator + AR envelope 
+// triangle oscillator + AR envelope 
 // set random freq and amp
 // use 'while' loop - endless loop
 //--------------------------------------

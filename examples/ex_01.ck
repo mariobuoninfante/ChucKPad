@@ -1,7 +1,7 @@
 //--------------------------------------
 // create a sine osc, connect it to the 
 // computer output set its frequency and 
-// amplitude the play it for 2 seconds
+// amplitude then play it for 2 seconds
 //--------------------------------------
 
 
