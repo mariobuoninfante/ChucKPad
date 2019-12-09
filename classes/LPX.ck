@@ -79,10 +79,7 @@ public class LPX extends MidiLib
             mode: 0.static, 1.flash, 2.pulse
         */
 
-        if(id % 10 != 9)
-            this.msg_out.note_on(id, color, mode+1);
-        else
-            this.msg_out.cc(color, id, mode+1);
+        this.msg_out.note_on(id, color, mode+1);
         this.to_LP.send(this.msg_out);
     }
 
@@ -108,10 +105,7 @@ public class LPX extends MidiLib
         {
             list[c*2]       => int id;
             list[(c*2) + 1] => int color;
-            if(id % 10 != 9)
-                this.msg_out.note_on(id, color, 1);
-            else
-                this.msg_out.cc(color, id, 1);
+            this.msg_out.note_on(id, color, 1);
             this.to_LP.send(this.msg_out);
         }
     }

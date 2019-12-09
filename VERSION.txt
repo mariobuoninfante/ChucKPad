@@ -1,3 +1,7 @@
+2019-12-09
+---
+  - LPX - set_led and set_leds methods use only NOTE ON msg
+
 2019-12-06
 ---
   - added LPX_example.ck and LPX_example_libraries.ck
