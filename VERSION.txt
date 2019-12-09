@@ -1,5 +1,7 @@
 2019-12-09
 ---
+  - main - code refactoring
+  - LPX - fixed typo in a comment
   - LPX - set_led and set_leds methods use only NOTE ON msg
 
 2019-12-06

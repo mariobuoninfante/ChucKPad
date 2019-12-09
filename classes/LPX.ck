@@ -98,7 +98,7 @@ public class LPX extends MidiLib
     {
         /*
             set specific LED
-            pairs of id, color - ie [11, 120, 35, 100] where index 0 and 3 are IDs and index 1 and 3 are colors
+            pairs of id, color - ie [11, 120, 35, 100] where index 0 and 2 are IDs and index 1 and 3 are colors
         */
 
         for(0 => int c; c < list.size()/2; c++)

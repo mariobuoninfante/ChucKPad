@@ -39,10 +39,13 @@ Play.create(19, 21, 1);     // pad_id: 19, ON_color: 21, button_type: 1 (toggle)
 
 // set tracks
 Seq.track_nr(nr_of_tracks);
+
+// expecting to find these files in the 'audio' folder
 Seq.loadsample(0, me.dir() + "/audio/kick.wav");
 Seq.loadsample(1, me.dir() + "/audio/snare.wav");
 Seq.loadsample(2, me.dir() + "/audio/hh.wav");
 Seq.loadsample(3, me.dir() + "/audio/tom.wav");
+
 Seq.set_track(0, 16, 0, 0);     // track nr, length, ones, offset
 Seq.smart_offset(1,1);
 Seq.set_track(1, 16, 0, 2);
@@ -64,27 +67,16 @@ while(true)
     {
         if(LPX.msg_in.type() == "NOTE_ON" && LPX.msg_in.data3 != 0)
         {
-            // LPX.clear();
-            // LPX.set_led(LPX.msg_in.data2, LPX.msg_in.data3, 2);
-            // LPX.set_leds([11,24,99,120,91,100,88,90]);
-            // LPX.set_all(Math.random2(0, 127), 2);
-            // LPX.set_led("solo", 120, 1);
-            // LPX.set_column(3, 119, 2);
-            // LPX.set_row(4, 120, 0);
             pad_press();
-            if(Play.press())
-                Play.get() => Seq.play;
             chout <= "------------------------------------------------" <= IO.nl();
             chout <= "------------------------------------------------" <= IO.nl();
             seq_update();
-            // print_status();
         }
         else if((LPX.msg_in.type() == "NOTE_ON" && LPX.msg_in.data3 == 0) || LPX.msg_in.type() == "CC")
         {
             if(Play.press())
                 Play.get() => Seq.play;
         }
-        // LPX.msg_in.print();
     }
 }
 
